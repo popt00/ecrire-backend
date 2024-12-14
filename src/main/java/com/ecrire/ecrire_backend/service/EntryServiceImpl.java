@@ -11,7 +11,8 @@ public class EntryServiceImpl implements EntryService{
     @Override
     public List<String> getEntries() {
         List<String> entriesList= new ArrayList<>();
-        entriesList.add("entries");
+        entriesList.add("entry 1");
+        entriesList.add("entry 1");
         return entriesList;
     }
 }
