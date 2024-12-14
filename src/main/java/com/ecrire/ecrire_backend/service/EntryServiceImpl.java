@@ -13,6 +13,7 @@ public class EntryServiceImpl implements EntryService{
         List<String> entriesList= new ArrayList<>();
         entriesList.add("entry 1");
         entriesList.add("entry 2");
+        entriesList.add("entry 3");
         return entriesList;
     }
 }
