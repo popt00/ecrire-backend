@@ -1,11 +1,11 @@
 package com.ecrire.ecrire_backend.rest;
 
+import com.ecrire.ecrire_backend.binding.Entry;
 import com.ecrire.ecrire_backend.service.EntryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -14,8 +14,29 @@ public class DashBoardRestController {
     @Autowired
     EntryService entryService;
 
+    @GetMapping("/entry/{id}")
+    public ResponseEntity<Entry> getEntry(@PathVariable Integer id){
+        Entry entryById = entryService.getEntryById(id);
+        return new ResponseEntity<>(entryById, HttpStatus.OK);
+    }
     @GetMapping("/entry")
-    public ResponseEntity<List<String>> getAllentries(){
-        return new ResponseEntity<>(entryService.getEntries(), HttpStatus.OK);
+    public ResponseEntity<List<Entry>> getAllentries(){
+        List<Entry> listEntries = entryService.getEntries();
+        return new ResponseEntity<>(listEntries, HttpStatus.OK);
+    }
+    @PostMapping("/entry")
+    public ResponseEntity<String> setEntries(@RequestBody Entry entry){
+
+        String message= entryService.upsert(entry);
+        return new ResponseEntity<>(message, HttpStatus.CREATED);
+    }
+    @PutMapping("/entry")
+    public ResponseEntity<String> putEntries(@RequestBody Entry entry){
+        String message= entryService.upsert(entry);
+        return new ResponseEntity<>(message, HttpStatus.OK);
+    }
+    @DeleteMapping("/entry/{id}")
+    public ResponseEntity<String> deleteEntry(@PathVariable Integer id){
+        return new ResponseEntity<>(entryService.deleteById(id), HttpStatus.OK);
     }
 }
