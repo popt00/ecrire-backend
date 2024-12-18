@@ -15,6 +15,12 @@ public class EntryServiceImpl implements EntryService{
     EntryRepository entryRepository;
 
     @Override
+    public List<Entry> findByKeyword(String str) {
+        // TO DO implement
+        return List.of();
+    }
+
+    @Override
     public String upsert(Entry entry) {
 //        System.out.println(entry.toString());
         entryRepository.save(entry);
