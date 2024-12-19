@@ -8,10 +8,16 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
+import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+
+import javax.sql.DataSource;
 
 @Configuration
 public class DemoSecurityConfig {
+
+    //this is filter chain for authorization (authority) which sets api requests to authorities
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http.authorizeHttpRequests(
@@ -26,10 +32,23 @@ public class DemoSecurityConfig {
                         .hasRole("USER")
         );
         http.httpBasic(Customizer.withDefaults());
-        http.csrf(csrf -> csrf.disable() );
+        //csrf is not required for REST api, if we are using webbased then we will use this
+        http.csrf(csrf -> csrf.disable());
         return http.build();
     }
 
+    //for returning user details for authentication and also user roles for authorization
+    @Bean
+    public UserDetailsManager userDetailsManager(DataSource dataSource){
+        JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
+        jdbcUserDetailsManager.setUsersByUsernameQuery("select username, password, active from user where username=?");
+        jdbcUserDetailsManager.setAuthoritiesByUsernameQuery("select user.username, role.roles from role " +
+                " inner join user on user.user_id = role.user_id" +
+                " where username=?");
+        return jdbcUserDetailsManager;
+    }
+
+    /*
     @Bean
     public InMemoryUserDetailsManager userDetailsManager(){
         UserDetails john = User.builder()
@@ -39,4 +58,5 @@ public class DemoSecurityConfig {
                 .build();
         return  new InMemoryUserDetailsManager(john);
     }
+    */
 }

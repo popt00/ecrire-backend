@@ -16,6 +16,7 @@ public class User {
     private String password;
     private String email;
     private Date createdAt;
+    private Integer active;
 
     public Integer getUserId() {
         return userId;
@@ -55,6 +56,14 @@ public class User {
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Integer getActive() {
+        return active;
+    }
+
+    public void setActive(Integer active) {
+        this.active = active;
     }
 
     @Override
