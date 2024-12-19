@@ -17,6 +17,7 @@ import javax.sql.DataSource;
 @Configuration
 public class DemoSecurityConfig {
 
+
     //this is filter chain for authorization (authority) which sets api requests to authorities
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
