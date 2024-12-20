@@ -10,10 +10,12 @@ public class Role {
     @Nonnull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer roleId;
+    //just remember to save roles in ROLE_USER, ROLE_ADMIN format
     private String roles;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @Nonnull
     private User user;
 
     public Integer getRoleId() {

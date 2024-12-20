@@ -44,7 +44,7 @@ public class DemoSecurityConfig {
         JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
         jdbcUserDetailsManager.setUsersByUsernameQuery("select username, password, active from user where username=?");
         jdbcUserDetailsManager.setAuthoritiesByUsernameQuery("select user.username, role.roles from role " +
-                " inner join user on user.user_id = role.user_id" +
+                " inner join user on user.userid = role.user_id" +
                 " where username=?");
         return jdbcUserDetailsManager;
     }

@@ -1,6 +1,7 @@
 package com.ecrire.ecrire_backend.rest;
 
 import com.ecrire.ecrire_backend.binding.Entry;
+import com.ecrire.ecrire_backend.binding.User;
 import com.ecrire.ecrire_backend.service.EntryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,12 +22,27 @@ public class DashBoardRestController {
     }
     @GetMapping("/entry")
     public ResponseEntity<List<Entry>> getAllentries(){
+//        System.out.println("in this get");
         List<Entry> listEntries = entryService.getEntries();
         return new ResponseEntity<>(listEntries, HttpStatus.OK);
     }
-    @PostMapping("/entry")
-    public ResponseEntity<String> setEntries(@RequestBody Entry entry){
 
+//    @GetMapping("/entry/search/{str}")
+//    public ResponseEntity<List<Entry>> getEntriesSearch(@PathVariable String str){
+//        List<Entry> listEntries = entryService.findByKeyword(str);
+//        return new ResponseEntity<>(listEntries, HttpStatus.OK);
+//    }
+
+    @GetMapping("/entry/user/{id}")
+    public ResponseEntity<List<Entry>> getEntriesSearch(@PathVariable Integer id){
+        List<Entry> listEntries = entryService.findByUserByUserId(id);
+        return new ResponseEntity<>(listEntries, HttpStatus.OK);
+    }
+
+    @PostMapping("/entry/")
+    public ResponseEntity<String> setEntries(@RequestBody Entry entry){
+//        System.out.println("in this post");
+//        System.out.println(entry);
         String message= entryService.upsert(entry);
         return new ResponseEntity<>(message, HttpStatus.CREATED);
     }

@@ -1,9 +1,9 @@
 package com.ecrire.ecrire_backend.binding;
 
+import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Generated;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
@@ -18,17 +18,16 @@ public class Entry {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer eid;
-
-//    @ManyToMany
-//    @JoinColumn(name = "user.userId")
-//    private User user;
-
+    @ManyToOne
+    @JoinColumn
+    @Nonnull
+    private User user;
 
     private String title;
     private String entry;
     private String mood;
-    private Date insertDate;
-    private Date updatedDate;
+    private Date insertdate;
+    private Date updateddate;
 
     public Integer getEid() {
         return eid;
@@ -36,6 +35,15 @@ public class Entry {
 
     public void setEid(Integer eid) {
         this.eid = eid;
+    }
+
+    @Nonnull
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(@Nonnull User user) {
+        this.user = user;
     }
 
     public String getTitle() {
@@ -62,31 +70,32 @@ public class Entry {
         this.mood = mood;
     }
 
-    public Date getInsertDate() {
-        return insertDate;
+    public Date getInsertdate() {
+        return insertdate;
     }
 
-    public void setInsertDate(Date insertDate) {
-        this.insertDate = insertDate;
+    public void setInsertdate(Date insertdate) {
+        this.insertdate = insertdate;
     }
 
-    public Date getUpdatedDate() {
-        return updatedDate;
+    public Date getUpdateddate() {
+        return updateddate;
     }
 
-    public void setUpdatedDate(Date updatedDate) {
-        this.updatedDate = updatedDate;
+    public void setUpdateddate(Date updateddate) {
+        this.updateddate = updateddate;
     }
 
     @Override
     public String toString() {
         return "Entry{" +
                 "eid=" + eid +
+                ", user=" + user +
                 ", title='" + title + '\'' +
                 ", entry='" + entry + '\'' +
                 ", mood='" + mood + '\'' +
-                ", insertDate=" + insertDate +
-                ", updatedDate=" + updatedDate +
+                ", insertDate=" + insertdate +
+                ", updatedDate=" + updateddate +
                 '}';
     }
 }
