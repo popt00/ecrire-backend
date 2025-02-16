@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -55,5 +56,10 @@ public class DashBoardRestController {
     @DeleteMapping("/entry/{id}")
     public ResponseEntity<String> deleteEntry(@PathVariable Integer id){
         return new ResponseEntity<>(entryService.deleteById(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/user")
+    public Principal getUser(Principal user){
+        return  user;
     }
 }

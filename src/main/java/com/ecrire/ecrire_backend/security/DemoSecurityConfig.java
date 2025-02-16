@@ -3,7 +3,9 @@ package com.ecrire.ecrire_backend.security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,8 +13,14 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 import javax.sql.DataSource;
+import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 public class DemoSecurityConfig {
@@ -23,6 +31,10 @@ public class DemoSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http.authorizeHttpRequests(
                 configurer -> configurer
+                        .requestMatchers(HttpMethod.POST,"/auth/**").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/auth/**").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/user/**")
+                        .hasRole("USER")
                         .requestMatchers(HttpMethod.GET,"/entry/**")
                         .hasRole("USER")
                         .requestMatchers(HttpMethod.POST,"/entry/**")
@@ -35,8 +47,20 @@ public class DemoSecurityConfig {
         http.httpBasic(Customizer.withDefaults());
         //csrf is not required for REST api, if we are using webbased then we will use this
         http.csrf(csrf -> csrf.disable());
+//        http.cors()
+
         return http.build();
     }
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("https://localhost:5173"));
+        configuration.setAllowedMethods(Arrays.asList("GET","POST"));
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+
 
     //for returning user details for authentication and also user roles for authorization
     @Bean
@@ -49,6 +73,10 @@ public class DemoSecurityConfig {
         return jdbcUserDetailsManager;
     }
 
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
+    }
     /*
     @Bean
     public InMemoryUserDetailsManager userDetailsManager(){
