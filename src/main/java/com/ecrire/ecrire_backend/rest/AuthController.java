@@ -19,7 +19,7 @@ public class AuthController {
 //    @CrossOrigin(origins = {"http://localhost:5173","http://localhost:3000"})
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest){
-        System.out.println("heyy : "+loginRequest.toString());
+//        System.out.println("heyy : "+loginRequest.toString());
         Authentication authentication= authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginRequest.getUsername(),loginRequest.getPassword())
