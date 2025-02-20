@@ -43,7 +43,6 @@ public class DashBoardRestController {
     @PostMapping("/entry/")
     public ResponseEntity<String> setEntries(@RequestBody Entry entry){
 //        System.out.println("in this post");
-//        System.out.println(entry);
         String message= entryService.upsert(entry);
         return new ResponseEntity<>(message, HttpStatus.CREATED);
     }
