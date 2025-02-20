@@ -12,7 +12,6 @@ import java.security.Principal;
 import java.util.List;
 
 @RestController
-@CrossOrigin
 public class DashBoardRestController {
     @Autowired
     EntryService entryService;

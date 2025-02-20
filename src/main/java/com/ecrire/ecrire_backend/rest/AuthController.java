@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin(origins = "http://localhost:5173")
 public class AuthController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
 
+//    @CrossOrigin(origins = {"http://localhost:5173","http://localhost:3000"})
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest){
         System.out.println("heyy : "+loginRequest.toString());
