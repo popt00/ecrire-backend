@@ -47,6 +47,7 @@ public class DemoSecurityConfig {
 //                        .hasRole("USER")
 //                        .requestMatchers(HttpMethod.DELETE,"/entry/**")
 //                        .hasRole("USER")
+
         );
         http.httpBasic(Customizer.withDefaults());
         //csrf is not required for REST api, if we are using webbased then we will use this
