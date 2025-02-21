@@ -36,16 +36,17 @@ public class DemoSecurityConfig {
         http.authorizeHttpRequests(
                 configurer -> configurer
                         .requestMatchers(HttpMethod.POST,"/auth/**").permitAll()
-                        .requestMatchers(HttpMethod.GET,"/user/**")
-                        .hasRole("USER")
-                        .requestMatchers(HttpMethod.GET,"/entry/**")
-                        .hasRole("USER")
-                        .requestMatchers(HttpMethod.POST,"/entry/**")
-                        .hasRole("USER")
-                        .requestMatchers(HttpMethod.PUT,"/entry/**")
-                        .hasRole("USER")
-                        .requestMatchers(HttpMethod.DELETE,"/entry/**")
-                        .hasRole("USER")
+                        .anyRequest().authenticated()
+//                        .requestMatchers(HttpMethod.GET,"/user/**")
+//                        .hasRole("USER")
+//                        .requestMatchers(HttpMethod.GET,"/entry/**")
+//                        .hasRole("USER")
+//                        .requestMatchers(HttpMethod.POST,"/entry/**")
+//                        .hasRole("USER")
+//                        .requestMatchers(HttpMethod.PUT,"/entry/**")
+//                        .hasRole("USER")
+//                        .requestMatchers(HttpMethod.DELETE,"/entry/**")
+//                        .hasRole("USER")
         );
         http.httpBasic(Customizer.withDefaults());
         //csrf is not required for REST api, if we are using webbased then we will use this
@@ -81,10 +82,11 @@ public class DemoSecurityConfig {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
-//    @Bean
+//    @Bean // will use when implementing Bcrypt
 //    public PasswordEncoder passwordEncoder() {
 //        return new BCryptPasswordEncoder();
 //    }
+
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
         return new JwtAuthenticationFilter();
