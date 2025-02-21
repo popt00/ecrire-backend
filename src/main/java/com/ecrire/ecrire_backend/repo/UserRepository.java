@@ -6,4 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.io.Serializable;
 
 public interface UserRepository extends JpaRepository<User, Serializable> {
+    User findByUsername(String username);
 }
