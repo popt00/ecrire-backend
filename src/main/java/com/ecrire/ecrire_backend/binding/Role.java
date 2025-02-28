@@ -18,6 +18,13 @@ public class Role {
     @Nonnull
     private User user;
 
+    public Role(){}
+    public Role(String roles, User user){
+        this.roles=roles;
+        this.user=user;
+    }
+
+
     public Integer getRoleId() {
         return roleId;
     }

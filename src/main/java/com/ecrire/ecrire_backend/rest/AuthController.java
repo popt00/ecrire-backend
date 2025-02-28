@@ -1,7 +1,11 @@
 package com.ecrire.ecrire_backend.rest;
 
+import com.ecrire.ecrire_backend.binding.Role;
+import com.ecrire.ecrire_backend.binding.User;
 import com.ecrire.ecrire_backend.binding.classes.LoginRequest;
 import com.ecrire.ecrire_backend.security.JwtService;
+import com.ecrire.ecrire_backend.service.UserService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -9,6 +13,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 
 @RestController
@@ -21,11 +28,14 @@ public class AuthController {
     @Autowired
     private JwtService jwtService;
 
+    @Autowired
+    private UserService userService;
+
 
 //    @CrossOrigin(origins = {"http://localhost:5173","http://localhost:3000"})
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest){
-        System.out.println("heyy : "+loginRequest.toString());
+        //System.out.println("heyy : "+loginRequest.toString());
         Authentication authentication= authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginRequest.getUsername(),loginRequest.getPassword())
@@ -35,6 +45,23 @@ public class AuthController {
             return ResponseEntity.ok(jwtService.GenerateToken(loginRequest.getUsername()));
         }
         return ResponseEntity.ok("nottoken");
+    }
+
+    @PostMapping("/signup")
+    @Transactional
+    public ResponseEntity<String> signup(@RequestBody LoginRequest loginRequest){
+        User user= new User();
+        user.setEmail(loginRequest.getEmail());
+        user.setUsername(loginRequest.getUsername());
+        user.setPassword("{noop}"+loginRequest.getPassword());
+        user.setActive(1);
+        Date date = new Date();
+        user.setCreatedAt(date);
+        Role role = new Role("ROLE_USER",user);
+        List<Role> listRoles= new ArrayList<>();
+        listRoles.add(role);
+        userService.upsert(user,listRoles);
+        return ResponseEntity.ok(user.getUsername()+"User Created");
     }
 
 

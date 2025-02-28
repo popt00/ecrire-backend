@@ -11,7 +11,7 @@ public class LoginRequest {
 
     public void setEmail(String email) {
         this.email = email;
-        this.username=email;
+        if(this.username==null)this.username=email;
     }
 
     public String getUsername() {

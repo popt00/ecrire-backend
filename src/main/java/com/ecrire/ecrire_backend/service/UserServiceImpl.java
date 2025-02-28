@@ -1,20 +1,27 @@
 package com.ecrire.ecrire_backend.service;
 
 import com.ecrire.ecrire_backend.binding.Entry;
+import com.ecrire.ecrire_backend.binding.Role;
 import com.ecrire.ecrire_backend.binding.User;
+import com.ecrire.ecrire_backend.repo.RoleRepository;
 import com.ecrire.ecrire_backend.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
+@Service
 public class UserServiceImpl implements UserService{
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    RoleRepository roleRepository;
+
     @Override
-    public String upsert(User user) {
+    public String upsert(User user, List<Role> roles) {
         userRepository.save(user);
+        roleRepository.saveAll(roles);
         return "Success";
     }
 
