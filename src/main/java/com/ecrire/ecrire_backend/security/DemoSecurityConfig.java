@@ -15,6 +15,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -36,13 +37,15 @@ public class DemoSecurityConfig {
         http.authorizeHttpRequests(
                 configurer -> configurer
                         .requestMatchers(HttpMethod.POST,"/auth/**").permitAll()
-                        .requestMatchers(HttpMethod.OPTIONS,"/auth/**").permitAll()
+                        .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
                         .requestMatchers(HttpMethod.GET,"/test/**").permitAll()
-                        .anyRequest().authenticated()
+//                        .anyRequest().authenticated()
 //                        .requestMatchers(HttpMethod.GET,"/user/**")
 //                        .hasRole("USER")
-//                        .requestMatchers(HttpMethod.GET,"/entry/**")
-//                        .hasRole("USER")
+                        .requestMatchers(HttpMethod.GET,"/entry/**")
+                        .hasRole("USER")
+                        .requestMatchers(HttpMethod.POST,"/entry/**")
+                        .permitAll()
 //                        .requestMatchers(HttpMethod.POST,"/entry/**")
 //                        .hasRole("USER")
 //                        .requestMatchers(HttpMethod.PUT,"/entry/**")
@@ -51,6 +54,8 @@ public class DemoSecurityConfig {
 //                        .hasRole("USER")
 
         );
+        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+
         http.httpBasic(Customizer.withDefaults());
         //csrf is not required for REST api, if we are using webbased then we will use this
         http.csrf(csrf -> csrf.disable());

@@ -2,10 +2,11 @@ package com.ecrire.ecrire_backend.binding;
 
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
 
 @Entity
 @Table
-public class Role {
+public class Role implements GrantedAuthority {
     @Id
     @Nonnull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,5 +57,10 @@ public class Role {
                 ", roles='" + roles + '\'' +
                 ", user=" + user +
                 '}';
+    }
+
+    @Override
+    public String getAuthority() {
+        return roles;
     }
 }

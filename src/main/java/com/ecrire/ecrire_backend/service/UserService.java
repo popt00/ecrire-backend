@@ -9,5 +9,6 @@ public interface UserService {
     public List<User> getEntries();
     public User getEntryById(Integer id);
     public String delete(Integer id);
+    public List<Role> getRoles(String username);
 
 }

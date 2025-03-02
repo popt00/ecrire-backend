@@ -44,4 +44,11 @@ public class UserServiceImpl implements UserService{
         userRepository.delete(userOptional.get());
         return "Success";
     }
+
+    @Override
+    public List<Role> getRoles(String username) {
+        List<Role> roles = roleRepository.findByUser(userRepository.findByUsername(username));
+        return roles;
+    }
+
 }
