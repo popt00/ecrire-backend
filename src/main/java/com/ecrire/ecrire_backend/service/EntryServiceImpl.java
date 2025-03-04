@@ -43,8 +43,8 @@ public class EntryServiceImpl implements EntryService{
     }
 
     @Override
-    public List<Entry> getEntries() {
-        List<Entry> entriesList= entryRepository.findAll();
+    public List<Entry> getEntries(String username) {
+        List<Entry> entriesList= entryRepository.findByUserUsername(username);
         return entriesList;
     }
 

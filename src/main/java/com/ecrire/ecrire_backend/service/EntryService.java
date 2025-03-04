@@ -9,7 +9,7 @@ public interface EntryService {
     public List<Entry> findByKeyword(User user, String str);
     public List<Entry> findByUserByUserId(Integer userId);
     public String upsert(Entry entry);
-    public List<Entry> getEntries();
+    public List<Entry> getEntries(String username);
     public Entry getEntryById(Integer id);
     public String deleteById(Integer id);
 }

@@ -40,11 +40,11 @@ public class AuthController {
                 new UsernamePasswordAuthenticationToken(
                         loginRequest.getUsername(),loginRequest.getPassword())
         );
-        System.out.println("authentication done");
+//        System.out.println("authentication done");
         if(authentication.isAuthenticated()){
             return ResponseEntity.ok(jwtService.GenerateToken(loginRequest.getUsername()));
         }
-        return ResponseEntity.ok("nottoken");
+        return ResponseEntity.ok("failed");
     }
 
     @PostMapping("/signup")

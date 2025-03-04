@@ -9,4 +9,5 @@ import java.util.List;
 
 public interface EntryRepository extends JpaRepository<Entry, Serializable> {
     List<Entry> findByUser_Userid(Integer userId);
+    List<Entry> findByUserUsername(String username);
 }

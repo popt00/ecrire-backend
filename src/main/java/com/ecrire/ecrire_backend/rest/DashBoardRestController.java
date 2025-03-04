@@ -6,6 +6,8 @@ import com.ecrire.ecrire_backend.service.EntryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -22,12 +24,20 @@ public class DashBoardRestController {
         return new ResponseEntity<>(entryById, HttpStatus.OK);
     }
     @GetMapping("/entry")
-    public ResponseEntity<List<Entry>> getAllentries(){
+    public ResponseEntity<List<Entry>> getAllentries(Authentication authentication){
 //        System.out.println("in this get");
-        List<Entry> listEntries = entryService.getEntries();
+        List<Entry> listEntries = entryService.getEntries(authentication.getName());
         return new ResponseEntity<>(listEntries, HttpStatus.OK);
     }
-
+    @GetMapping("/entry/username")
+    public ResponseEntity<String> getuserName(Authentication principal){
+//        System.out.println("in this get");
+        String username= principal.getName();
+        UserDetails userDetails = (UserDetails) principal.getPrincipal();
+        System.out.println(userDetails.toString());
+        System.out.println("User has authorities: " + userDetails.getAuthorities());
+        return new ResponseEntity<>(username, HttpStatus.OK);
+    }
 //    @GetMapping("/entry/search/{str}")
 //    public ResponseEntity<List<Entry>> getEntriesSearch(@PathVariable String str){
 //        List<Entry> listEntries = entryService.findByKeyword(str);
