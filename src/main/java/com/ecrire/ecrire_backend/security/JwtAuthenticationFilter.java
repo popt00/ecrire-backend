@@ -29,11 +29,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private static final String SECRET_KEY = "357638792F423F4428472B4B6250655368566D597133743677397A2443264629"; // Replace with a secure key
     private static final String HEADER = "Authorization";
 
-    @PostConstruct
-    public void hiii(){
-        System.out.println("hiii");
-    }
-
     @Autowired
     private JwtService jwtService;
     @Autowired
@@ -42,7 +37,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        System.out.println(request.toString());
+
+//        System.out.println(" inside JwtAuthenticationFileter do Filter");
+//        System.out.println(request.toString());
         String token = request.getHeader(HEADER);
         System.out.println(token);
         if (token != null && token.startsWith("Bearer ")) {

@@ -6,7 +6,8 @@ import java.util.List;
 
 public interface UserService {
     public String upsert(User user, List<Role> roles);
-    public List<User> getEntries();
+    public User getUserByUsername(String username);
+    public User getUserByEmail(String email);
     public User getEntryById(Integer id);
     public String delete(Integer id);
     public List<Role> getRoles(String username);

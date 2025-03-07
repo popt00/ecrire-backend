@@ -7,6 +7,7 @@ import com.ecrire.ecrire_backend.security.JwtService;
 import com.ecrire.ecrire_backend.service.UserService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -35,7 +36,15 @@ public class AuthController {
 //    @CrossOrigin(origins = {"http://localhost:5173","http://localhost:3000"})
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest){
-        //System.out.println("heyy : "+loginRequest.toString());
+//        System.out.println("inside here");
+        if(loginRequest.getUsername()==null && loginRequest.getEmail()==null)
+            return  new ResponseEntity<>("username or email not found", HttpStatus.NOT_FOUND);
+        if(loginRequest.getUsername()==null){
+            String username = userService.getUserByEmail(loginRequest.getEmail()).getUsername();
+            if(username==null)  new ResponseEntity<>("user not found", HttpStatus.NOT_FOUND);
+            loginRequest.setUsername(username);
+        }
+//        System.out.println("heyy : "+loginRequest.toString());
         Authentication authentication= authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginRequest.getUsername(),loginRequest.getPassword())
@@ -61,7 +70,7 @@ public class AuthController {
         List<Role> listRoles= new ArrayList<>();
         listRoles.add(role);
         userService.upsert(user,listRoles);
-        return ResponseEntity.ok(user.getUsername()+"User Created");
+        return ResponseEntity.ok(user.getUsername()+" User Created");
     }
 
 

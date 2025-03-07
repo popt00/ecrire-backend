@@ -11,7 +11,6 @@ public class LoginRequest {
 
     public void setEmail(String email) {
         this.email = email;
-        if(this.username==null)this.username=email;
     }
 
     public String getUsername() {
@@ -25,5 +24,14 @@ public class LoginRequest {
     }
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "LoginRequest{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 }
