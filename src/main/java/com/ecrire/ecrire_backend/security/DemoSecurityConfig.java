@@ -39,20 +39,12 @@ public class DemoSecurityConfig {
                         .requestMatchers(HttpMethod.POST,"/auth/**").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
                         .requestMatchers(HttpMethod.GET,"/test/**").permitAll()
-//                        .anyRequest().authenticated()
-//                        .requestMatchers(HttpMethod.GET,"/user/**")
-//                        .hasRole("USER")
                         .requestMatchers(HttpMethod.GET,"/entry/**")
                         .hasRole("USER")
                         .requestMatchers(HttpMethod.POST,"/entry/**")
                         .permitAll()
 //                        .requestMatchers(HttpMethod.POST,"/entry/**")
 //                        .hasRole("USER")
-//                        .requestMatchers(HttpMethod.PUT,"/entry/**")
-//                        .hasRole("USER")
-//                        .requestMatchers(HttpMethod.DELETE,"/entry/**")
-//                        .hasRole("USER")
-
         );
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 

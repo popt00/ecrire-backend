@@ -58,7 +58,7 @@ public class AuthController {
 
     @PostMapping("/signup")
     @Transactional
-    public ResponseEntity<String> signup(@RequestBody LoginRequest loginRequest){
+    public ResponseEntity<String> signup(@RequestBody LoginRequest loginRequest) {
         User user= new User();
         user.setEmail(loginRequest.getEmail());
         user.setUsername(loginRequest.getUsername());
@@ -69,6 +69,7 @@ public class AuthController {
         Role role = new Role("ROLE_USER",user);
         List<Role> listRoles= new ArrayList<>();
         listRoles.add(role);
+
         userService.upsert(user,listRoles);
         return ResponseEntity.ok(user.getUsername()+" User Created");
     }
